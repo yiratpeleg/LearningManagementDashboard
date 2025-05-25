@@ -71,7 +71,7 @@ public class EnrolmentsController : ControllerBase
     public async Task<ActionResult> Report()
     {
         _logger.LogInformation("GET /api/enrolments/report called");
-        var rpt = await _enrolmentService.GenerateEnrolmentReportAsync();
-        return Ok(rpt);
+        var report = await _enrolmentService.GenerateEnrolmentReportAsync();
+        return Ok(report);
     }
 }
