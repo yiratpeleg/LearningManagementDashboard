@@ -16,7 +16,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddSingleton<ICourseService, CourseService>()
-    .AddSingleton<IStudentService, StudentService>();
+    .AddSingleton<IStudentService, StudentService>()
+    .AddSingleton<IEnrolmentService, EnrolmentService>();
 
 builder.Services.AddAutoMapper(typeof(CourseMappingProfile));
 
