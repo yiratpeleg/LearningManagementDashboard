@@ -1,3 +1,4 @@
+using LearningManagementDashboard.Configuration;
 using LearningManagementDashboard.Exceptions;
 using LearningManagementDashboard.Mapping;
 using LearningManagementDashboard.Services;
@@ -21,6 +22,23 @@ builder.Services
 
 builder.Services.AddAutoMapper(typeof(CourseMappingProfile));
 
+builder.Services.Configure<CorsSettings>(
+    builder.Configuration.GetSection("CorsSettings"));
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        var cors = builder.Configuration
+                       .GetSection("CorsSettings")
+                       .Get<CorsSettings>()!;
+
+        policy.WithOrigins(cors.AllowedOrigins)
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -34,6 +52,7 @@ else
     app.UseExceptionHandler("/error");
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
