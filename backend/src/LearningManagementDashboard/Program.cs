@@ -15,7 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
-    .AddSingleton<ICourseService, CourseService>();
+    .AddSingleton<ICourseService, CourseService>()
+    .AddSingleton<IStudentService, StudentService>();
 
 builder.Services.AddAutoMapper(typeof(CourseMappingProfile));
 
