@@ -79,6 +79,15 @@ public class EnrolmentService : IEnrolmentService
         return Task.FromResult(report);
     }
 
+    public Task DeleteEnrolmentByCourseIdAsync(Guid courseId)
+    {
+        var toDelete = _enrolments.Values
+            .Where(e => e.CourseId == courseId)
+            .Select(e => _enrolments.Remove(e.Id));
+
+        return Task.CompletedTask;
+    }
+
     private async Task EnsureCourseExistsAsync(Guid courseId)
     {
         if (await _courseService.GetCourseByIdAsync(courseId) is null)
