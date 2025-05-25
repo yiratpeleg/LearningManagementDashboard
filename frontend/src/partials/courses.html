@@ -1,0 +1,56 @@
+<section id="courses-section" class="hidden" aria-labelledby="courses-heading">
+  <h2 id="courses-heading">Courses</h2>
+
+  <div class="table-wrapper">
+    <table id="courses-table" class="data-table">
+      <caption>
+        All Courses
+      </caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <form id="course-form" novalidate>
+    <fieldset class="form-group">
+      <legend>New / Edit Course</legend>
+
+      <input type="hidden" id="course-id" name="id" />
+
+      <div class="form-field">
+        <label for="course-name">Name<span aria-hidden="true">*</span></label>
+        <input
+          type="text"
+          id="course-name"
+          name="name"
+          required
+          minlength="3"
+          maxlength="100"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="course-desc">Description</label>
+        <input
+          type="text"
+          id="course-desc"
+          name="description"
+          maxlength="500"
+        />
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="button" id="course-cancel" class="btn btn-secondary hidden">
+        Cancel
+      </button>
+    </div>
+  </form>
+</section>
