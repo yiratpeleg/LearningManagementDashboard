@@ -2,7 +2,7 @@
 
 namespace LearningManagementDashboard.Models.Requests;
 
-public class CreateCourseRequest
+public class UpdateCourseRequest
 {
     [Required]
     [StringLength(100, MinimumLength = 3)]

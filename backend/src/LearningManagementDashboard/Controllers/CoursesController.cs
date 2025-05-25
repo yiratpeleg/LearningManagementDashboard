@@ -67,4 +67,36 @@ public class CoursesController : ControllerBase
             courseResponse
         );
     }
+
+    [HttpPut("{id}", Name = "UpdateCourse")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateCourseRequest req)
+    {
+        _logger.LogInformation("PUT /api/courses/{CourseId} called", id);
+
+        if (!ModelState.IsValid)
+            return ValidationProblem(ModelState);
+
+        var existing = await _courseService.GetCourseByIdAsync(id);
+        if (existing is null) return NotFound();
+
+        existing.Name = req.Name;
+        existing.Description = req.Description;
+        await _courseService.UpdateCourseAsync(existing);
+
+        _logger.LogInformation("Course {CourseId} updated", id);
+        return NoContent();
+    }
+
+    [HttpDelete("{id}", Name = "DeleteCourse")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        _logger.LogInformation("DELETE /api/courses/{CourseId} called", id);
+
+        await _courseService.DeleteCourseAsync(id);
+
+        _logger.LogInformation("Course {CourseId} deleted", id);
+        return NoContent();
+    }
 }
