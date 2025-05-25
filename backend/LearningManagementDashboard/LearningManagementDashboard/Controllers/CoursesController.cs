@@ -55,12 +55,6 @@ namespace LearningManagementDashboard.Controllers
             if (!ModelState.IsValid)
                 return ValidationProblem(ModelState);
 
-            if (await _courseService.CourseExistsByNameAsync(req.Name))
-            {
-                _logger.LogWarning("Conflict: course name already exists: {Name}", req.Name);
-                return Conflict(new { message = "A course with that name already exists." });
-            }
-
             var createdCourse = await _courseService.CreateCourseAsync(req.Name, req.Description);
             _logger.LogInformation("Course created: {CourseId}", createdCourse.Id);
 

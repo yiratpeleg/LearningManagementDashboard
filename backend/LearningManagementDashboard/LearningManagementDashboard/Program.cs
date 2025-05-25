@@ -1,3 +1,4 @@
+using LearningManagementDashboard.Exceptions;
 using LearningManagementDashboard.Mapping;
 using LearningManagementDashboard.Services;
 using Microsoft.AspNetCore.Diagnostics;
@@ -9,10 +10,7 @@ builder.Logging
     .AddConsole()
     .AddDebug();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -23,7 +21,6 @@ builder.Services.AddAutoMapper(typeof(CourseMappingProfile));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -36,7 +33,6 @@ else
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
@@ -47,6 +43,11 @@ app.Map("/error", (HttpContext http) =>
     var ex = feature?.Error;
     var logger = http.RequestServices.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "Unhandled exception");
+
+    if (ex is CourseAlreadyExistsException)
+    {
+        return Results.Conflict(new { message = ex.Message });
+    }
 
     return Results.Problem(
         detail: ex?.Message,

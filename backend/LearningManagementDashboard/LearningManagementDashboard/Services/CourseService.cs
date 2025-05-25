@@ -1,4 +1,5 @@
-﻿using LearningManagementDashboard.Models;
+﻿using LearningManagementDashboard.Exceptions;
+using LearningManagementDashboard.Models;
 
 namespace LearningManagementDashboard.Services;
 
@@ -34,12 +35,13 @@ public class CourseService : ICourseService
 
     public Task<Course> CreateCourseAsync(string name, string description)
     {
-        var course = new Course
+        if (CourseExistsByName(name))
         {
-            Id = Guid.NewGuid(),
-            Name = name,
-            Description = description
-        };
+            _logger.LogWarning("Course name conflict: {Name}", name);
+            throw new CourseAlreadyExistsException(name);
+        }
+
+        var course = CreateCourse(name, description);
         _courses[course.Id] = course;
 
         _logger.LogInformation("Created course {CourseId} (Name: {Name})", course.Id, course.Name);
@@ -74,11 +76,19 @@ public class CourseService : ICourseService
         return Task.CompletedTask;
     }
 
-    public Task<bool> CourseExistsByNameAsync(string name)
+    private bool CourseExistsByName(string name)
     {
-        var exists = _courses.Values
-            .Any(c => string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+        return _courses.Values.Any(c =>
+                        string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
+    }
 
-        return Task.FromResult(exists);
+    private Course CreateCourse(string name, string description)
+    {
+        return new Course
+        {
+            Id = Guid.NewGuid(),
+            Name = name,
+            Description = description
+        };
     }
 }
