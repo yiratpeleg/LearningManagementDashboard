@@ -11,14 +11,17 @@ namespace LearningManagementDashboard.Controllers;
 public class CoursesController : ControllerBase
 {
     private readonly ICourseService _courseService;
+    private readonly IEnrolmentService _enrolmentService;
     private readonly IMapper _mapper;
     private readonly ILogger<CoursesController> _logger;
 
     public CoursesController(ICourseService courseService,
+        IEnrolmentService enrolmentService,
         IMapper mapper,
         ILogger<CoursesController> logger)
     {
         _courseService = courseService;
+        _enrolmentService = enrolmentService;
         _mapper = mapper;
         _logger = logger;
     }
@@ -95,6 +98,7 @@ public class CoursesController : ControllerBase
         _logger.LogInformation("DELETE /api/courses/{CourseId} called", id);
 
         await _courseService.DeleteCourseAsync(id);
+        await _enrolmentService.DeleteEnrolmentByCourseIdAsync(id);
 
         _logger.LogInformation("Course {CourseId} deleted", id);
         return NoContent();
