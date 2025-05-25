@@ -44,7 +44,8 @@ public class CourseService : ICourseService
         var course = CreateCourse(name, description);
         _courses[course.Id] = course;
 
-        _logger.LogInformation("Created course {CourseId} (Name: {Name})", course.Id, course.Name);
+        _logger.LogInformation("Created course {CourseId} (Name: {Name})",
+            course.Id, course.Name);
 
         return Task.FromResult(course);
     }

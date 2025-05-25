@@ -10,7 +10,7 @@ internal static class LoggerMockExtensions
                                     string partialMessage,
                                     Times times)
     {
-        if (mock == null)
+        if (mock is null)
         {
             throw new ArgumentNullException(nameof(mock));
         }
