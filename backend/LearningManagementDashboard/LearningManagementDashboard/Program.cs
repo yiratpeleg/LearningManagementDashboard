@@ -1,3 +1,4 @@
+using LearningManagementDashboard.Mapping;
 using LearningManagementDashboard.Services;
 using Microsoft.AspNetCore.Diagnostics;
 
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddSingleton<ICourseService, CourseService>();
+
+builder.Services.AddAutoMapper(typeof(CourseMappingProfile));
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using LearningManagementDashboard.Models.Requests;
+﻿using AutoMapper;
+using LearningManagementDashboard.Models.Requests;
 using LearningManagementDashboard.Models.Responses;
 using LearningManagementDashboard.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,15 @@ namespace LearningManagementDashboard.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly IMapper _mapper;
         private readonly ILogger<CoursesController> _logger;
 
-        public CoursesController(ICourseService courseService, ILogger<CoursesController> logger)
+        public CoursesController(ICourseService courseService,
+            IMapper mapper,
+            ILogger<CoursesController> logger)
         {
             _courseService = courseService;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -23,15 +28,10 @@ namespace LearningManagementDashboard.Controllers
         {
             _logger.LogInformation("GET /api/courses called");
 
-            var domainCourses = await _courseService.GetAllCoursesAsync();
-            var courses = domainCourses.Select(c => new CourseResponse
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Description = c.Description
-            });
+            var courses = await _courseService.GetAllCoursesAsync();
+            var coursesResponse = _mapper.Map<IEnumerable<CourseResponse>>(courses);
 
-            return Ok(courses);
+            return Ok(coursesResponse);
         }
 
         [HttpGet("{id}", Name = "GetCourseById")]
@@ -43,12 +43,7 @@ namespace LearningManagementDashboard.Controllers
             if (course is null)
                 return NotFound();
 
-            var courseResponse = new CourseResponse
-            {
-                Id = course.Id,
-                Name = course.Name,
-                Description = course.Description
-            };
+            var courseResponse = _mapper.Map<CourseResponse>(course);
             return Ok(courseResponse);
         }
 
@@ -69,12 +64,7 @@ namespace LearningManagementDashboard.Controllers
             var createdCourse = await _courseService.CreateCourseAsync(req.Name, req.Description);
             _logger.LogInformation("Course created: {CourseId}", createdCourse.Id);
 
-            var courseResponse = new CourseResponse
-            {
-                Id = createdCourse.Id,
-                Name = createdCourse.Name,
-                Description = createdCourse.Description
-            };
+            var courseResponse = _mapper.Map<CourseResponse>(createdCourse);
 
             return CreatedAtAction(
                 nameof(GetById),
