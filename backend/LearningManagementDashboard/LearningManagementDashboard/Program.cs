@@ -1,4 +1,5 @@
 using LearningManagementDashboard.Services;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +23,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/error");
 }
 
 app.UseHttpsRedirection();
@@ -31,5 +37,17 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.Map("/error", (HttpContext http) =>
+{
+    var feature = http.Features.Get<IExceptionHandlerFeature>();
+    var ex = feature?.Error;
+    var logger = http.RequestServices.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Unhandled exception");
+
+    return Results.Problem(
+        detail: ex?.Message,
+        statusCode: StatusCodes.Status500InternalServerError);
+});
 
 app.Run();
