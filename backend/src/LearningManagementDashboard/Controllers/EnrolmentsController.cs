@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LearningManagementDashboard.Models;
 using LearningManagementDashboard.Models.Requests;
 using LearningManagementDashboard.Models.Responses;
 using LearningManagementDashboard.Services;
@@ -68,7 +69,7 @@ public class EnrolmentsController : ControllerBase
     }
 
     [HttpGet("report", Name = "GetEnrolmentReport")]
-    public async Task<ActionResult> Report()
+    public async Task<ActionResult<IEnumerable<EnrolmentReportItem>>> Report()
     {
         _logger.LogInformation("GET /api/enrolments/report called");
         var report = await _enrolmentService.GenerateEnrolmentReportAsync();
