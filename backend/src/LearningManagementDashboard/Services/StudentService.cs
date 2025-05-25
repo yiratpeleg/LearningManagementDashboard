@@ -32,7 +32,7 @@ public class StudentService : IStudentService
 
     public Task<Student> CreateStudentAsync(string fullName)
     {
-        Student student = CreateStudent(fullName);
+        Student student = CreateStudentEntity(fullName);
         _students[student.Id] = student;
 
         _logger.LogInformation("Created student {StudentId} (Name: {Name})",
@@ -41,12 +41,10 @@ public class StudentService : IStudentService
         return Task.FromResult(student);
     }
 
-    private Student CreateStudent(string fullName)
-    {
-        return new Student
+    private Student CreateStudentEntity(string fullName) =>
+        new Student
         {
             Id = Guid.NewGuid(),
             FullName = fullName
         };
-    }
 }

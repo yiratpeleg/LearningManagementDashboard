@@ -41,7 +41,7 @@ public class CourseService : ICourseService
             throw new CourseAlreadyExistsException(name);
         }
 
-        var course = CreateCourse(name, description);
+        var course = CreateCourseEntity(name, description);
         _courses[course.Id] = course;
 
         _logger.LogInformation("Created course {CourseId} (Name: {Name})",
@@ -83,13 +83,11 @@ public class CourseService : ICourseService
                         string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
     }
 
-    private Course CreateCourse(string name, string description)
+    private Course CreateCourseEntity(string name, string description) =>
+    new Course
     {
-        return new Course
-        {
-            Id = Guid.NewGuid(),
-            Name = name,
-            Description = description
-        };
-    }
+        Id = Guid.NewGuid(),
+        Name = name,
+        Description = description
+    };
 }

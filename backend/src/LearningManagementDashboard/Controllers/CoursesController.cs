@@ -48,7 +48,8 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost(Name = "CreateCourse")]
-    public async Task<ActionResult<CourseResponse>> Create([FromBody] CreateCourseRequest req)
+    public async Task<ActionResult<CourseResponse>> Create(
+        [FromBody] CreateCourseRequest req)
     {
         _logger.LogInformation("POST /api/courses (Name: {Name})", req.Name);
 
