@@ -13,7 +13,17 @@ A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full
    cd LearningManagementDashboard
    ```
 
-2. **Backend**
+2. **Bring up LocalStack (S3 mock)**
+
+   We use LocalStack to simulate AWS S3 locally.
+
+   ```bash
+   docker compose up -d localstack
+   ```
+
+   This exposes S3 on `http://localhost:4566`.
+
+3. **Backend**
 
    * Navigate to the backend project:
 
@@ -27,8 +37,9 @@ A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full
      dotnet run
      ```
    * The API will be available at `https://localhost:5001/api`
+   * On startup the S3 bucket `learning-dashboard` is created in LocalStack.
 
-3. **Frontend**
+4. **Frontend**
 
    * From the `frontend` folder, install no dependencies (vanilla JS):
 
@@ -42,10 +53,54 @@ A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full
      ```
    * Open `http://localhost:5500/index.html` in your browser.
 
-4. **Environment Configuration**
+5. **Environment Configuration**
 
    * Update `launchSettings.json` (backend) to match desired ports.
    * Ensure CORS (if any) is configured to allow the frontend origin.
+
+---
+
+## 📦 AWS / LocalStack Configuration
+
+We leverage the AWS SDK for .NET against LocalStack’s S3 endpoint:
+
+* **Docker Compose**
+   * Our `docker-compose.yml` includes:
+
+  ```yaml
+  services:
+    localstack:
+      image: localstack/localstack:latest
+      ports:
+        - '4566:4566'
+      environment:
+        - SERVICES=s3
+        - DEFAULT_REGION=us-east-1
+  ```
+
+* **appsettings.json**
+   * Point the SDK at LocalStack:
+
+  ```jsonc
+  {
+    "AWS": {
+      "ServiceURL": "http://localhost:4566",
+      "UseHttp": true
+    }
+  }
+  ```
+
+* **Bucket auto-creation**
+   * On startup, the bucket `learning-dashboard` is created in LocalStack if missing.
+
+* **Verifying via AWS CLI**
+   * Run ```aws configure``` with the following params:
+   * `AWS_ACCESS_KEY_ID=mock AWS_SECRET_ACCESS_KEY=mock`
+
+  ```bash
+  aws --endpoint-url http://localhost:4566 s3 ls s3://learning-dashboard/courses/
+  aws --endpoint-url http://localhost:4566 s3 cp s3://learning-dashboard/courses/<id>.json -
+  ```
 
 ---
 
