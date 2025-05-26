@@ -1,3 +1,5 @@
+using Amazon.Runtime;
+using Amazon.S3;
 using LearningManagementDashboard.Configuration;
 using LearningManagementDashboard.Exceptions;
 using LearningManagementDashboard.Mapping;
@@ -14,6 +16,20 @@ builder.Logging
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var s3Url = builder.Configuration["S3:ServiceURL"];
+var s3Config = new AmazonS3Config
+{
+    ServiceURL = s3Url,
+    ForcePathStyle = true
+};
+var s3Client = new AmazonS3Client(
+    new BasicAWSCredentials("mock", "mock"),
+    s3Config
+);
+
+builder.Services.AddSingleton<IAmazonS3>(s3Client);
+builder.Services.AddSingleton<IStorageService, S3StorageService>();
 
 builder.Services
     .AddSingleton<ICourseService, CourseService>()
