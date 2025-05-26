@@ -4,6 +4,9 @@ A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full
 
 ---
 
+<img width="1000"  src="https://github.com/user-attachments/assets/e5dc9d56-cda6-45e8-a418-2e0e94628baa">
+
+
 ## 🛠️ Setup Instructions
 
 1. **Clone the repository**
