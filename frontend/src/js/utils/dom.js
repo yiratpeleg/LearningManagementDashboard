@@ -14,7 +14,13 @@ export function showSection(id) {
   document
     .querySelectorAll("main section")
     .forEach((s) => s.classList.add("hidden"));
+
   const el = document.getElementById(id);
   if (!el) throw new Error(`No section found: ${id}`);
   el.classList.remove("hidden");
+
+  const hash = `#${id}`;
+  if (window.location.hash !== hash) {
+    window.history.replaceState(null, "", hash);
+  }
 }

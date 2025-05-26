@@ -1,0 +1,20 @@
+.enrol-list {
+  list-style: none;
+  margin: 1em 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-light);
+}
+
+.enrol-list li {
+  padding: 0.5em 1em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.enrol-list li.empty {
+  text-align: center;
+  color: var(--text-muted);
+}

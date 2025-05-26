@@ -3,45 +3,30 @@
   class="hidden"
   aria-labelledby="enrolments-heading"
 >
-  <h2 id="enrolments-heading">Enrolments</h2>
+  <h2 id="enrolments-heading">Student Enrollments</h2>
 
-  <div class="table-wrapper">
-    <table id="enrolments-table" class="data-table">
-      <caption>
-        All Enrolments
-      </caption>
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Student</th>
-          <th>Enrolled At</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+  <div class="form-field">
+    <label for="enrol-student-select">Select Student</label>
+    <select id="enrol-student-select" name="studentId" required>
+      <option value="">-- choose a student --</option>
+    </select>
   </div>
 
-  <form id="enrolment-form">
+  <ul id="enrolments-list" class="enrol-list"></ul>
+
+  <form id="enrolment-form" novalidate>
     <fieldset class="form-group">
-      <legend>New Enrolment</legend>
+      <legend>Assign Student to Course</legend>
 
       <div class="form-field">
-        <label for="enrol-course"
-          >Course<span aria-hidden="true">*</span></label
-        >
-        <select id="enrol-course" name="courseId" required></select>
+        <label for="enrol-course">Course</label>
+        <select id="enrol-course" name="courseId" required>
+          <option value="">-- choose a course --</option>
+        </select>
       </div>
-
-      <div class="form-field">
-        <label for="enrol-student"
-          >Student<span aria-hidden="true">*</span></label
-        >
-        <select id="enrol-student" name="studentId" required></select>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Enroll</button>
       </div>
     </fieldset>
-
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Assign</button>
-    </div>
   </form>
 </section>

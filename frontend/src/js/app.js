@@ -59,7 +59,9 @@ class App {
     this.bindNav();
     this.bindForms();
 
-    const start = window.location.hash.replace(/^#/, "") || "courses-section";
+    const start = window.location.hash
+      ? window.location.hash.slice(1)
+      : "courses-section";
     await this.onNav(start);
   }
 
@@ -86,6 +88,9 @@ class App {
       studentsRoot: document.getElementById("students-section"),
       enrolmentsRoot: document.getElementById("enrolments-section"),
       reportRoot: document.getElementById("report-section"),
+
+      enrolStudentSelect: document.getElementById("enrol-student-select"),
+      enrolmentsList: document.getElementById("enrolments-list"),
     };
   }
 
