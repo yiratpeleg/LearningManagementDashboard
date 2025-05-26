@@ -1,17 +1,15 @@
 export default class EnrolmentService {
+  static basePath = "/enrolments";
+
   constructor(apiClient) {
     this.api = apiClient;
   }
 
   list() {
-    return this.api.request("/enrolments");
+    return this.api.get(EnrolmentService.basePath);
   }
 
-  create({ courseId, studentId }) {
-    return this.api.request("/enrolments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ courseId, studentId }),
-    });
+  create(payload) {
+    return this.api.post(EnrolmentService.basePath, payload);
   }
 }

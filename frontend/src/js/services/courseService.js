@@ -1,31 +1,23 @@
 export default class CourseService {
+  static basePath = "/courses";
+
   constructor(apiClient) {
     this.api = apiClient;
   }
 
   list() {
-    return this.api.request("/courses");
+    return this.api.get(CourseService.basePath);
   }
 
-  create({ name, description }) {
-    return this.api.request("/courses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, description }),
-    });
+  create(payload) {
+    return this.api.post(CourseService.basePath, payload);
   }
 
-  update(id, { name, description }) {
-    return this.api.request(`/courses/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, description }),
-    });
+  update(id, payload) {
+    return this.api.put(`${CourseService.basePath}/${id}`, payload);
   }
 
   delete(id) {
-    return this.api.request(`/courses/${id}`, {
-      method: "DELETE",
-    });
+    return this.api.delete(`${CourseService.basePath}/${id}`);
   }
 }

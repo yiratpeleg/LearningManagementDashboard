@@ -1,17 +1,15 @@
 export default class StudentService {
+  static basePath = "/students";
+
   constructor(apiClient) {
     this.api = apiClient;
   }
 
   list() {
-    return this.api.request("/students");
+    return this.api.get(StudentService.basePath);
   }
 
-  create({ fullName }) {
-    return this.api.request("/students", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fullName }),
-    });
+  create(payload) {
+    return this.api.post(StudentService.basePath, payload);
   }
 }
