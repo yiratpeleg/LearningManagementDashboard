@@ -1,0 +1,18 @@
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
+.data-table caption {
+  caption-side: top;
+  font-weight: bold;
+  margin-bottom: var(--spacing);
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing);
+  text-align: left;
+}

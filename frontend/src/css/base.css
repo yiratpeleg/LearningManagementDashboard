@@ -1,0 +1,32 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-border: #cccccc;
+
+  --font-family: "Segoe UI", Tahoma, sans-serif;
+  --spacing: 0.5rem;
+  --radius: 0.25rem;
+  --transition: 0.2s ease-in-out;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+}

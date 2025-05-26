@@ -1,0 +1,47 @@
+<section
+  id="enrolments-section"
+  class="hidden"
+  aria-labelledby="enrolments-heading"
+>
+  <h2 id="enrolments-heading">Enrolments</h2>
+
+  <div class="table-wrapper">
+    <table id="enrolments-table" class="data-table">
+      <caption>
+        All Enrolments
+      </caption>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Student</th>
+          <th>Enrolled At</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <form id="enrolment-form">
+    <fieldset class="form-group">
+      <legend>New Enrolment</legend>
+
+      <div class="form-field">
+        <label for="enrol-course"
+          >Course<span aria-hidden="true">*</span></label
+        >
+        <select id="enrol-course" name="courseId" required></select>
+      </div>
+
+      <div class="form-field">
+        <label for="enrol-student"
+          >Student<span aria-hidden="true">*</span></label
+        >
+        <select id="enrol-student" name="studentId" required></select>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Assign</button>
+    </div>
+  </form>
+</section>

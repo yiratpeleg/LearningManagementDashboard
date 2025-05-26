@@ -1,0 +1,44 @@
+<section
+  id="students-section"
+  class="hidden"
+  aria-labelledby="students-heading"
+>
+  <h2 id="students-heading">Students</h2>
+
+  <div class="table-wrapper">
+    <table id="students-table" class="data-table">
+      <caption>
+        All Students
+      </caption>
+      <thead>
+        <tr>
+          <th>Full Name</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <form id="student-form" novalidate>
+    <fieldset class="form-group">
+      <legend>New Student</legend>
+      <div class="form-field">
+        <label for="student-fullname"
+          >Full Name<span aria-hidden="true">*</span></label
+        >
+        <input
+          type="text"
+          id="student-fullname"
+          name="fullName"
+          required
+          minlength="2"
+          maxlength="100"
+        />
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</section>
