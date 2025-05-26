@@ -1,6 +1,6 @@
 # Learning Management Dashboard
 
-A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full‑stack development using .NET Core, in‑memory data storage, RESTful APIs, and a vanilla JavaScript frontend with a focus on clean architecture, separation of concerns, and responsive UI design.
+A mini Learning Management System (LMS) dashboard showcasing end‑to‑end full‑stack development using .NET Core, in‑memory data storage, RESTful APIs, and a vanilla JavaScript frontend with a focus on clean architecture and separation of concerns.
 
 ---
 
