@@ -10,12 +10,21 @@ namespace LearningManagementDashboard.Tests;
 public class CourseServiceTests
 {
     private readonly CourseService _service;
+    private readonly Mock<IStorageService> _storageMock;
     private readonly Mock<ILogger<CourseService>> _loggerMock;
 
     public CourseServiceTests()
     {
+        _storageMock = new Mock<IStorageService>();
         _loggerMock = new Mock<ILogger<CourseService>>();
-        _service = new CourseService(_loggerMock.Object);
+
+        _storageMock
+            .Setup(s => s.UploadObjectAsync(
+                It.IsAny<string>(),
+                It.IsAny<Stream>()))
+            .Returns(Task.CompletedTask);
+
+        _service = new CourseService(_loggerMock.Object, _storageMock.Object);
     }
 
     [Fact]

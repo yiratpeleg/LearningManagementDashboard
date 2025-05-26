@@ -1,16 +1,25 @@
 ﻿using LearningManagementDashboard.Exceptions;
 using LearningManagementDashboard.Models;
+using System.Text;
+using System.Text.Json;
 
 namespace LearningManagementDashboard.Services;
 
 public class CourseService : ICourseService
 {
     private readonly ILogger<CourseService> _logger;
+    private readonly IStorageService _storage;
+
     private readonly Dictionary<Guid, Course> _courses;
 
-    public CourseService(ILogger<CourseService> logger)
+    private const string CoursePrefix = "courses/";
+    private const string CourseSuffix = ".json";
+
+    public CourseService(ILogger<CourseService> logger,
+        IStorageService storage)
     {
         _logger = logger;
+        _storage = storage;
         _courses = new();
     }
 
@@ -33,7 +42,7 @@ public class CourseService : ICourseService
         return Task.FromResult<Course?>(course);
     }
 
-    public Task<Course> CreateCourseAsync(string name, string description)
+    public async Task<Course> CreateCourseAsync(string name, string description)
     {
         if (CourseExistsByName(name))
         {
@@ -44,10 +53,12 @@ public class CourseService : ICourseService
         var course = CreateCourseEntity(name, description);
         _courses[course.Id] = course;
 
+        await UploadCourseSnapshotAsync(course);
+
         _logger.LogInformation("Created course {CourseId} (Name: {Name})",
             course.Id, course.Name);
 
-        return Task.FromResult(course);
+        return course;
     }
 
     public Task UpdateCourseAsync(Course course)
@@ -90,4 +101,12 @@ public class CourseService : ICourseService
         Name = name,
         Description = description
     };
+
+    private async Task UploadCourseSnapshotAsync(Course course)
+    {
+        var key = $"{CoursePrefix}{course.Id}{CourseSuffix}";
+        var json = JsonSerializer.Serialize(course);
+        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
+        await _storage.UploadObjectAsync(key, ms);
+    }
 }
