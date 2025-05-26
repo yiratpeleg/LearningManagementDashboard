@@ -1,20 +1,5 @@
 import { escapeHtml } from "../utils/dom.js";
 
-export function renderEnrolmentRows(enrols, courseMap, studentMap) {
-  return enrols
-    .filter((e) => courseMap[e.courseId] && studentMap[e.studentId])
-    .map(
-      (e) => `
-      <tr>
-        <td>${escapeHtml(courseMap[e.courseId])}</td>
-        <td>${escapeHtml(studentMap[e.studentId])}</td>
-        <td>${new Date(e.enrolledAt).toLocaleString()}</td>
-      </tr>
-    `
-    )
-    .join("");
-}
-
 export function renderCourseOptions(courses) {
   return courses
     .map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`)
@@ -22,7 +7,17 @@ export function renderCourseOptions(courses) {
 }
 
 export function renderStudentOptions(students) {
-  return students
-    .map((s) => `<option value="${s.id}">${escapeHtml(s.fullName)}</option>`)
-    .join("");
+  return [
+    `<option value="">-- choose a student --</option>`,
+    ...students.map(
+      (s) => `<option value="${s.id}">${escapeHtml(s.fullName)}</option>`
+    ),
+  ].join("");
+}
+
+export function renderEnrolmentList(courseNames) {
+  if (!courseNames.length) {
+    return `<li class="empty">No enrollments yet</li>`;
+  }
+  return courseNames.map((name) => `<li>${escapeHtml(name)}</li>`).join("");
 }
