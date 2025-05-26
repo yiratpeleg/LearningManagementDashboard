@@ -17,11 +17,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var s3Url = builder.Configuration["S3:ServiceURL"];
+var serviceUrl = builder.Configuration["S3:ServiceURL"]!;
+var useHttp = builder.Configuration.GetValue<bool>("S3:UseHttp");
 var s3Config = new AmazonS3Config
 {
-    ServiceURL = s3Url,
-    ForcePathStyle = true
+    ServiceURL = serviceUrl,
+    ForcePathStyle = true,
+    UseHttp = useHttp
 };
 var s3Client = new AmazonS3Client(
     new BasicAWSCredentials("mock", "mock"),
