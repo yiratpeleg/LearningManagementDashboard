@@ -140,6 +140,7 @@ We leverage the AWS SDK for .NET against LocalStack’s S3 endpoint:
 ## 💡 Trade-offs & Areas for Improvement
 
 * **In‑Memory Data**: Simplifies setup but not persistent. Future work: integrate EF Core with DB.
+* **S3 Storage Scope**: Currently S3 is used only to store course snapshots; it could be extended to persist and serve student and enrollment data as well, enabling full create/read/update workflows directly against S3.
 * **Validation**: Frontend relies on browser HTML5 + minimal error alerts. Improvement: build a reactive form library or integrate a UI framework for richer UX.
 * **Global State**: Managed via simple flags and `App` class. Scaling may benefit from state management patterns (Redux‑like, Observables).
 * **Routing**: URL hash preserves tabs. For a larger app, consider a client‑side router (e.g., Navigo) or SPA framework.
