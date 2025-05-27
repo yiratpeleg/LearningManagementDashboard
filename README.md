@@ -88,7 +88,9 @@ We leverage the AWS SDK for .NET against LocalStack’s S3 endpoint:
   {
     "AWS": {
       "ServiceURL": "http://localhost:4566",
-      "UseHttp": true
+      "UseHttp": true,
+      "AccessKey": "mock",
+      "SecretKey": "mock"
     }
   }
   ```
