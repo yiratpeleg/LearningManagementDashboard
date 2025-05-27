@@ -27,30 +27,6 @@ public class EnrolmentService : IEnrolmentService
         return Task.FromResult(_enrolments.Values.AsEnumerable());
     }
 
-    public Task<Enrolment?> GetEnrolmentByIdAsync(Guid id)
-    {
-        _logger.LogInformation("Getting enrolment by Id {EnrolmentId}", id);
-
-        if (!_enrolments.TryGetValue(id, out var enrolment))
-        {
-            _logger.LogWarning("Enrolment not found: {EnrolmentId}", id);
-            return Task.FromResult<Enrolment?>(null);
-        }
-
-        return Task.FromResult<Enrolment?>(enrolment);
-    }
-
-    public Task<IEnumerable<Enrolment>> GetEnrolmentsByStudentAsync(Guid studentId)
-    {
-        _logger.LogInformation("Getting enrolments for Student {StudentId}", studentId);
-
-        var enrolments = _enrolments.Values
-            .Where(e => e.StudentId == studentId)
-            .AsEnumerable();
-
-        return Task.FromResult(enrolments);
-    }
-
     public async Task<Enrolment> CreateEnrolmentAsync(Guid courseId, Guid studentId)
     {
         await EnsureCourseExistsAsync(courseId);

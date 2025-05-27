@@ -36,17 +36,6 @@ public class EnrolmentsController : ControllerBase
         return Ok(enrolmentsResponse);
     }
 
-    [HttpGet("student/{studentId}", Name = "GetEnrolmentsByStudent")]
-    public async Task<ActionResult<IEnumerable<EnrolmentResponse>>> GetByStudent(Guid studentId)
-    {
-        _logger.LogInformation("GET /api/enrolments/student/{StudentId} called", studentId);
-
-        var enrolments = await _enrolmentService.GetEnrolmentsByStudentAsync(studentId);
-        var enrolmentsResponse = _mapper.Map<IEnumerable<EnrolmentResponse>>(enrolments);
-
-        return Ok(enrolmentsResponse);
-    }
-
     [HttpPost(Name = "CreateEnrolment")]
     public async Task<ActionResult<EnrolmentResponse>> Create(
         [FromBody] CreateEnrolmentRequest req)
